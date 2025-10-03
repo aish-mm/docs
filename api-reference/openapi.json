@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://node.wyngs.pro/api/e360mastersapi"
     }
   ],
   "security": [
@@ -19,6 +19,68 @@
     }
   ],
   "paths": {
+    "/get_taskmaster": {
+      "post": {
+        "tags": ["Get", "General"],
+        "summary": "Download Get Taskmaster",
+        "description": "Downloads get_taskmaster information based on the provided parameters.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Tenantid",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The tenant ID for which data is requested.",
+            "example": 3
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Tenantid": {
+                    "type": "integer",
+                    "description": "The tenant ID for which data is requested.",
+                    "example": 3
+                  }
+                },
+                "required": ["Tenantid"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "description": "Response data items"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/plants": {
       "get": {
         "description": "Returns all plants from the system that the user has access to",
@@ -155,9 +217,7 @@
   "components": {
     "schemas": {
       "Plant": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -176,9 +236,7 @@
             "$ref": "#/components/schemas/Plant"
           },
           {
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "type": "object",
             "properties": {
               "id": {
@@ -191,10 +249,7 @@
         ]
       },
       "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+        "required": ["error", "message"],
         "type": "object",
         "properties": {
           "error": {
